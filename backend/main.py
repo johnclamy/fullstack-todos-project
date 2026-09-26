@@ -1,8 +1,10 @@
 import uvicorn
 from fastapi import FastAPI
+from app.web.todos import router as todos_router
 
 
 app = FastAPI()
+app.include_router(todos_router)
 
 
 @app.get("/")

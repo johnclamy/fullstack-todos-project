@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field, ConfigDict, EmailStr
+from todos_schema import TodoResponse
 
 
 # ==========================================
@@ -6,14 +7,13 @@ from pydantic import BaseModel, Field, ConfigDict, EmailStr
 # ==========================================
 
 class AuthorBase(BaseModel):
-    """Core fields shared across all Author schemas."""
+    """Core Author fields."""
     model_config = ConfigDict(
         extra="forbid",
         str_strip_whitespace=True,
         validate_assignment=True
     )
 
-    # Ensures the name isn't just empty spaces and stays within a reasonable limit
     name: str = Field(
         ...,
         min_length=1,
@@ -21,12 +21,8 @@ class AuthorBase(BaseModel):
         description="The author's full name."
     )
     
-    # EmailStr automatically validates proper RFC 5322 syntax (e.g., user@example.com)
-    email: EmailStr = Field(
-        ...,
-        description="The author's unique email address."
-    )
-
+    email: EmailStr
+    
 
 # ==========================================
 # INPUT SCHEMAS (Client -> Server)
@@ -51,5 +47,11 @@ class AuthorUpdate(BaseModel):
 
 class AuthorResponse(AuthorBase):
     """Used for API responses, guaranteeing system fields."""
-    # id: int
+    id: int
     model_config = ConfigDict(from_attributes=True)
+
+
+class AuthorWithTodosResponse(AuthorResponse):
+    """Advanced response showing an author and all of their items.
+    Perfect for a 'User Profile' dashboard."""
+    todos: list[TodoResponse] = []

@@ -55,6 +55,7 @@ dependencies = [
     { name = "black" },
     { name = "fastapi", extra = ["standard"] },
     { name = "httpx" },
+    { name = "pydantic", extra = ["email"] },
     { name = "pytest" },
     { name = "uvicorn" },
 ]
@@ -64,6 +65,7 @@ requires-dist = [
     { name = "black", specifier = ">=26.5.1" },
     { name = "fastapi", extras = ["standard"], specifier = ">=0.141.1" },
     { name = "httpx", specifier = ">=0.28.1" },
+    { name = "pydantic", extras = ["email"], specifier = ">=2.13.5" },
     { name = "pytest", specifier = ">=9.1.1" },
     { name = "uvicorn", specifier = ">=0.54.0" },
 ]

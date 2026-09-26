@@ -1,5 +1,9 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from pydantic import BaseModel, Field, ConfigDict, EmailStr
-from todos_schema import TodoResponse
+
+if TYPE_CHECKING:
+    from app.model.todos_schema import TodoResponse
 
 
 # ==========================================
@@ -54,4 +58,4 @@ class AuthorResponse(AuthorBase):
 class AuthorWithTodosResponse(AuthorResponse):
     """Advanced response showing an author and all of their items.
     Perfect for a 'User Profile' dashboard."""
-    todos: list[TodoResponse] = []
+    todos: list[TodoResponse] = Field(default_factory=list)

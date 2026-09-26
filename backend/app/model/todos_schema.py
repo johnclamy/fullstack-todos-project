@@ -1,6 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel, Field, ConfigDict
-from author_schema import AuthorResponse
+from app.model.author_schema import AuthorResponse, AuthorWithTodosResponse
 
 
 # ==========================================
@@ -23,7 +23,7 @@ class TodoBase(BaseModel):
 # INPUT SCHEMAS (Client -> Server)
 # ==========================================
 
-class TodoCreate(BaseModel):
+class TodoCreate(TodoBase):
     """When creating a todo, the client must provide the author's ID."""
     author_id: int = Field(..., description="The ID of the author who owns this todo.")
 
@@ -59,3 +59,6 @@ class TodoWithAuthorResponse(TodoResponse):
     Perfect for a front-end view requiring author information instantly.
     """
     author: AuthorResponse
+
+
+AuthorWithTodosResponse.model_rebuild(_types_namespace={"TodoResponse": TodoResponse})

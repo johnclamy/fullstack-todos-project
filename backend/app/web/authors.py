@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from model.author_schema import AuthorCreate, AuthorResponse, AuthorUpdate
-import service.authors as service
+from app.model.author_schema import AuthorCreate, AuthorResponse, AuthorUpdate
+import app.service.authors as service
 
 
 router = APIRouter(prefix="/authors", tags=["autors"])

@@ -3,7 +3,7 @@ from app.model.author_schema import AuthorCreate, AuthorResponse, AuthorUpdate
 import app.service.authors as service
 
 
-router = APIRouter(prefix="/authors", tags=["autors"])
+router = APIRouter()
 
 
 # CRUD ops on Authors
@@ -41,10 +41,10 @@ async def update(author_id: int, editedAuthor: AuthorUpdate) -> AuthorResponse:
     try:
         author = service.update(author_id, editedAuthor)
     except ValueError as exc:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail=str(exc),
-            ) from exc
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(exc),
+        ) from exc
 
     if author is None:
         raise HTTPException(
@@ -54,7 +54,7 @@ async def update(author_id: int, editedAuthor: AuthorUpdate) -> AuthorResponse:
     return author
 
 
-@router.delete("/{author_id}", response_model=AuthorResponse, status_code=status.HTTP_200_OK,)
+@router.delete("/{author_id}", response_model=AuthorResponse, status_code=status.HTTP_200_OK)
 async def delete(author_id: int) -> AuthorResponse:
     author = service.delete(author_id)
 

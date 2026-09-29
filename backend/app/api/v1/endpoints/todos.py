@@ -3,7 +3,7 @@ from app.model.todos_schema import TodoCreate, TodoResponse, TodoUpdate
 import app.service.todos as service
 
 
-router = APIRouter(prefix="/todos", tags=["todos"])
+router = APIRouter()
 
 
 # CRUD ops on Todos

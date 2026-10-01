@@ -9,6 +9,7 @@ import app.service.todo_service as service
 
 router = APIRouter()
 
+
 @router.get("/", status_code=status.HTTP_200_OK)
 async def get_all(db: AsyncSession = Depends(get_db)) -> ApiResponse[list[TodoResponse]]:
     try:
@@ -17,16 +18,16 @@ async def get_all(db: AsyncSession = Depends(get_db)) -> ApiResponse[list[TodoRe
 
         return ApiResponse(
             status=status.HTTP_200_OK,
-            message="Todos were read successfully",
+            message="Todos retrieved successfully",
             data=todo_responses,
         )
+    
     except SQLAlchemyError as exc:
         await db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Unable to retrieve todos",
         ) from exc
-
 
 
 @router.get("/{todo_id}", status_code=status.HTTP_200_OK)
@@ -43,6 +44,7 @@ async def get_by_id(
             message="Todo retrieved successfully",
             data=todo_response,
         )
+    
     except SQLAlchemyError as exc:
         await db.rollback()
         raise HTTPException(
@@ -65,6 +67,7 @@ async def create_todo(
             message="Todo created successfully",
             data=todo_response,
         )
+    
     except SQLAlchemyError as exc:
         await db.rollback()
         raise HTTPException(
@@ -80,29 +83,43 @@ async def update(
     db: AsyncSession = Depends(get_db),   
 ) -> ApiResponse[TodoResponse]:
     try:
+        if todo is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Todo {todo_id} does not exist",
+            )
+        
         updated_todo = await service.update(db, todo_id, todo)
+        todo_response = TodoResponse.model_validate(updated_todo)
+        
     except ValueError as exc:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(exc),
         ) from exc
+    
     except SQLAlchemyError as exc:
         await db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Unable to update todo",
-        ) from exc
-        
-    if updated_todo is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Todo {todo_id} does not exist",
-        )
+        ) from exc     
 
-    todo_response = TodoResponse.model_validate(updated_todo)
-    
     return ApiResponse(
         status=status.HTTP_200_OK,
         message="Todo updated successfully",
         data=todo_response,
     )
+
+
+@router.delete("/{todo_id}", status_code=status.HTTP_200_OK)
+async def delete(
+    todo_id: int, 
+    db: AsyncSession = Depends(get_db),
+) -> ApiResponse[None]:
+    await service.delete(db, todo_id)
+    
+    return ApiResponse(
+        status=status.HTTP_200_OK,
+        message="Todo deleted successfully",
+    )    

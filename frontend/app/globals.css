@@ -225,6 +225,7 @@ button {
 
 .navbar-logo:hover {
   transform: scale(1.05);
+  text-decoration: none;
 }
 
 .navbar-logo-icon {
@@ -270,6 +271,7 @@ button {
   background-color: var(--color-accent-hover);
   color: var(--color-bg-base);
   transform: translateY(-2px);
+  text-decoration: none;
   box-shadow: 0 4px 12px rgba(255, 195, 0, 0.3);
 }
 

@@ -315,6 +315,7 @@ button {
 }
 
 .navbar-mobile-link-cta {
+  align-self: flex-start;
   background-color: var(--color-accent);
   color: var(--color-bg-base);
   font-weight: 600;
@@ -325,6 +326,7 @@ button {
 .navbar-mobile-link-cta:hover {
   background-color: var(--color-accent-hover);
   color: var(--color-bg-base);
+  text-decoration: none;
 }
 
 /* Responsive Breakpoint */

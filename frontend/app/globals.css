@@ -3,29 +3,16 @@
 /* =========================================
    1. CSS VARIABLES (THEME TOKENS)
    ========================================= */
-:root {
-  /* Backgrounds & Surfaces */
-  --color-bg-base: #000814;       /* Main page background */
-  --color-bg-surface: #001D3D;    /* Cards, modals, todo items */
-  --color-bg-elevated: #003566;   /* Hover states, inputs, borders */
 
-  /* Accents & Actions */
-  --color-accent: #FFC300;        /* Primary buttons, active states */
-  --color-accent-hover: #FFD60A;  /* Button hovers, focus rings, highlights */
-
-  /* Typography (Added for accessibility/readability) */
-  --color-text-main: #F8FAFC;     /* Soft white for body text */
-  --color-text-muted: #94A3B8;    /* Slate gray for secondary text */
-  --color-text-highlight: #FFD60A;/* Bright yellow for headings/links */
-
-  /* Spacing & Radii */
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
+@theme {
+  --color-base: #000814;
+  --color-surface: #001D3D;
+  --color-elevated: #003566;
+  --color-accent: #FFC300;
+  --color-accent-hover: #FFD60A;
   
-  /* Transitions */
-  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --color-text-main: #F8FAFC;
+  --color-text-muted: #94A3B8;
 }
 
 /* =========================================

@@ -191,3 +191,151 @@ button {
   text-decoration: line-through;
   color: var(--color-text-muted);
 }
+
+
+/* =========================================
+   7. NAVBAR
+   ========================================= */
+.navbar {
+  background-color: var(--color-bg-surface);
+  border-bottom: 1px solid var(--color-bg-elevated);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  transition: transform var(--transition-fast);
+}
+
+.navbar-logo:hover {
+  transform: scale(1.05);
+}
+
+.navbar-logo-icon {
+  color: var(--color-accent);
+}
+
+.navbar-logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-highlight);
+}
+
+/* Desktop Navigation Links */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.navbar-link {
+  color: var(--color-text-main);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.navbar-link:hover {
+  color: var(--color-text-highlight);
+  background-color: var(--color-bg-elevated);
+}
+
+/* CTA Button (Add Todo) */
+.navbar-link-cta {
+  background-color: var(--color-accent);
+  color: var(--color-bg-base);
+  font-weight: 600;
+  padding: 0.625rem 1.25rem;
+}
+
+.navbar-link-cta:hover {
+  background-color: var(--color-accent-hover);
+  color: var(--color-bg-base);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 195, 0, 0.3);
+}
+
+/* Mobile Menu Button */
+.navbar-mobile-btn {
+  display: none;
+  background: transparent;
+  color: var(--color-text-main);
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.navbar-mobile-btn:hover {
+  background-color: var(--color-bg-elevated);
+  color: var(--color-text-highlight);
+}
+
+/* Mobile Navigation */
+.navbar-mobile-links {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  background-color: var(--color-bg-surface);
+  border-top: 1px solid var(--color-bg-elevated);
+}
+
+.navbar-mobile-link {
+  color: var(--color-text-main);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.navbar-mobile-link:hover {
+  background-color: var(--color-bg-elevated);
+  color: var(--color-text-highlight);
+}
+
+.navbar-mobile-link-cta {
+  background-color: var(--color-accent);
+  color: var(--color-bg-base);
+  font-weight: 600;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.navbar-mobile-link-cta:hover {
+  background-color: var(--color-accent-hover);
+  color: var(--color-bg-base);
+}
+
+/* Responsive Breakpoint */
+@media (max-width: 768px) {
+  .navbar-links {
+    display: none;
+  }
+
+  .navbar-mobile-btn {
+    display: block;
+  }
+
+  .navbar-mobile-links {
+    display: flex;
+  }
+}

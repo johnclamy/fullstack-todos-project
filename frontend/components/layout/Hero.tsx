@@ -38,7 +38,28 @@ export default function Hero() {
                 Experience a beautifully crafted task manager designed to eliminate friction from your daily workflow. 
                 Organize your priorities, track your progress, and turn your ambitions into reality with an interface 
                 that feels as good as it looks. Stop planning, start achieving.
-            </p>           
+            </p> 
+
+            {/* Hero Buttons */}
+            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                {/* Primary CTA: Action-oriented (Opens Modal/Form) */}
+                <button
+                    type="button"
+                    className="group relative inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-all duration-200 hover:bg-indigo-500 hover:shadow-indigo-500/40 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 w-full sm:w-auto"
+                >
+                    <Plus className="h-4 w-4 transition-transform group-hover:rotate-90 duration-300" />
+                    Add Your Todo
+                </button>
+
+                {/* Secondary CTA: Navigation-oriented (Uses next/link) */}
+                <Link
+                    href="/tasks"
+                    className="group inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-7 py-3.5 text-sm font-semibold text-slate-700 dark:text-slate-300 shadow-sm transition-all duration-200 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-700 w-full sm:w-auto"
+                >
+                    View My Tasks
+                    <ListChecks className="h-4 w-4 transition-transform group-hover:translate-x-1 duration-200" />
+                </Link>
+            </div>          
         </div>
     </section>
   )

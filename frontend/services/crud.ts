@@ -1,4 +1,3 @@
-import { Author } from './authors'
 import { Todo } from './todos'
 
 

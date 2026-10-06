@@ -1,4 +1,4 @@
-export interface Todo {
+interface Todo {
     id: number
     title: string
     description: string
@@ -7,3 +7,6 @@ export interface Todo {
     created_at: string
     updated_at: string
 }
+
+
+export default Todo

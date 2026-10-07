@@ -54,7 +54,7 @@ export default function Todos() {
                 <h1 className="text-3xl md:text-4xl font-bold text-accent">My Todos</h1>
                 <Link
                     href="/add"
-                    className="inline-flex items-center justify-center px-5 py-2.5 bg-accent text-base font-semibold rounded-lg hover:bg-accent-hover transition-all duration-200 shadow-lg shadow-accent/20"
+                    className="inline-flex items-center justify-center px-5 py-2.5 bg-accent text-base text-[var(--color-base)] font-semibold rounded-lg hover:bg-accent-hover transition-all duration-200 shadow-lg shadow-accent/20"
                 >
                     + Add New
                 </Link>

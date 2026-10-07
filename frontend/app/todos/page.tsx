@@ -47,14 +47,14 @@ export default function Todos() {
     }
 
     return (        
-        <main className="min-h-screen bg-[#000814] text-gray-100 p-6 md:p-12">
+        <main className="min-h-screen bg-base text-gray-100 p-6 md:p-12">
 
             {/* Header Section */}
             <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-                <h1 className="text-3xl md:text-4xl font-bold text-[#FFC300]">My Todo's</h1>
+                <h1 className="text-3xl md:text-4xl font-bold text-accent">My Todo's</h1>
                 <Link
                     href="/add"
-                    className="inline-flex items-center justify-center px-5 py-2.5 bg-[#FFC300] text-[#000814] font-semibold rounded-lg hover:bg-[#FFD60A] transition-all duration-200 shadow-lg shadow-[#FFC300]/20"
+                    className="inline-flex items-center justify-center px-5 py-2.5 bg-accent text-base font-semibold rounded-lg hover:bg-accent-hover transition-all duration-200 shadow-lg shadow-accent/20"
                 >
                     + Add New
                 </Link>
@@ -69,7 +69,7 @@ export default function Todos() {
 
             {/* Empty State */}
             {todos.length === 0 && !error ? (
-                <div className="text-center py-16 bg-[#001D3D] rounded-2xl border border-[#003566]">
+                <div className="text-center py-16 bg-surface rounded-2xl border border-elevated">
                     <span className="text-5xl mb-4 block">📝</span>
                     <h2 className="text-xl font-semibold text-white mb-2">No tasks yet!</h2>
                     <p className="text-gray-400">Create your first task to get started.</p>
@@ -80,15 +80,15 @@ export default function Todos() {
                         // Add conditional class if completed
                         <li
                             key={todo.id}
-                            className={`group flex flex-col sm:flex-row justify-between items-start sm:items-center p-5 bg-[#001D3D] border border-[#003566] rounded-xl transition-all duration-200 ${todo.is_completed 
-                                ? 'opacity-60 border-l-4 border-l-[#FFC300]' 
-                                : 'hover:border-[#FFC300]/50 hover:shadow-lg hover:shadow-[#FFC300]/5'
+                            className={`group flex flex-col sm:flex-row justify-between items-start sm:items-center p-5 bg-surface border border-elevated rounded-xl transition-all duration-200 ${todo.is_completed 
+                                ? 'opacity-60 border-l-4 border-l-accent' 
+                                : 'hover:border-accent/50 hover:shadow-lg hover:shadow-accent/5'
                             }`}
                         >
                             <div className="flex-1">
                                 <h3 className={`text-lg font-semibold transition-colors ${todo.is_completed 
                                     ? 'line-through text-gray-400' 
-                                    : 'text-white group-hover:text-[#FFC300]'
+                                    : 'text-white group-hover:text-accent'
                                 }`}>
                                     {todo.title}
                                 </h3>
@@ -100,7 +100,7 @@ export default function Todos() {
                             <div className="flex items-center gap-3 mt-4 sm:mt-0">
                                 <Link
                                     href={`/todos/${todo.id}/edit`}
-                                    className="px-4 py-2 text-sm font-medium text-[#FFC300] border border-[#FFC300]/30 rounded-lg hover:bg-[#FFC300]/10 transition-colors"
+                                    className="px-4 py-2 text-sm font-medium text-accent border border-accent/30 rounded-lg hover:bg-accent/10 transition-colors"
                                 >
                                     Edit
                                 </Link>
@@ -120,11 +120,11 @@ export default function Todos() {
             {isOpen && (
                 <div
                     onClick={closeHandler}
-                    className="fixed inset-0 bg-[#000814]/80 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+                    className="fixed inset-0 bg-base/80 backdrop-blur-sm flex items-center justify-center p-4 z-50"
                 >
                     <div
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-[#001D3D] border border-[#003566] rounded-xl p-6 max-w-md w-full shadow-2xl"
+                        className="bg-surface border border-elevated rounded-xl p-6 max-w-md w-full shadow-2xl"
                     >
                         <h2 className="text-xl font-bold text-white mb-2">Delete Task?</h2>
                         <p className="text-gray-400 mb-6">
@@ -139,13 +139,13 @@ export default function Todos() {
                         <div className="flex justify-end gap-3">
                             <button
                                 onClick={closeHandler}
-                                className="px-4 py-2 text-sm font-medium text-gray-300 bg-[#003566]/50 rounded-lg hover:bg-[#003566] transition-colors"
+                                className="px-4 py-2 text-sm font-medium text-gray-300 bg-elevated/50 rounded-lg hover:bg-elevated transition-colors"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={confirmDeleteHandler}
-                                className="px-4 py-2 text-sm font-medium text-[#000814] bg-[#FFC300] rounded-lg hover:bg-[#FFD60A] transition-all duration-200 shadow-lg shadow-[#FFC300]/20"
+                                className="px-4 py-2 text-sm font-medium text-base bg-accent rounded-lg hover:bg-accent-hover transition-all duration-200 shadow-lg shadow-accent/20"
                             >
                                 Yes, Delete
                             </button>

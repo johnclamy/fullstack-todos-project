@@ -47,11 +47,11 @@ export default function Todos() {
     }
 
     return (        
-        <main className="min-h-screen bg-base text-gray-100 p-6 md:p-12">
+        <main className="min-h-screen bg-base text-gray-100 p-6 md:p-12 max-w-5xl mx-auto">
 
             {/* Header Section */}
             <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-                <h1 className="text-3xl md:text-4xl font-bold text-accent">My Todo's</h1>
+                <h1 className="text-3xl md:text-4xl font-bold text-accent">My Todos</h1>
                 <Link
                     href="/add"
                     className="inline-flex items-center justify-center px-5 py-2.5 bg-accent text-base font-semibold rounded-lg hover:bg-accent-hover transition-all duration-200 shadow-lg shadow-accent/20"

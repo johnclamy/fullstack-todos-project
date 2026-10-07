@@ -46,7 +46,7 @@ export default function Todos() {
         }
     }
 
-    return (        
+    return (      
         <main className="min-h-screen bg-base text-gray-100 p-6 md:p-12 max-w-5xl mx-auto">
 
             {/* Header Section */}

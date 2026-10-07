@@ -86,15 +86,17 @@ body {
   }
 }
 
-:where(a) {
-  color: var(--color-accent);
-  text-decoration: none;
-  transition: color var(--transition-fast);
-}
+@layer base {
+  :where(a) {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
 
-:where(a):hover {
-  color: var(--color-accent-hover);
-  text-decoration: underline;
+  :where(a):hover {
+    color: var(--color-accent-hover);
+    text-decoration: underline;
+  }
 }
 
 /* =========================================

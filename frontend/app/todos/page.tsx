@@ -86,7 +86,7 @@ export default function Todos() {
                             }`}
                         >
                             <div className="flex-1">
-                                <h3 className={`text-lg font-semibold transition-colors ${todo.is_completed 
+                                <h3 className={`text-lg font-semibold mb-4 transition-colors ${todo.is_completed 
                                     ? 'line-through text-gray-400' 
                                     : 'text-white group-hover:text-accent'
                                 }`}>
@@ -100,7 +100,7 @@ export default function Todos() {
                             <div className="flex items-center gap-3 mt-4 sm:mt-0">
                                 <Link
                                     href={`/todos/${todo.id}/edit`}
-                                    className="px-4 py-2 text-sm font-medium text-accent border border-accent/30 rounded-lg hover:bg-accent/10 transition-colors"
+                                    className="px-4 py-2 text-sm font-medium no-underline text-accent border border-accent/30 rounded-lg hover:bg-accent/10 transition-colors"
                                 >
                                     Edit
                                 </Link>

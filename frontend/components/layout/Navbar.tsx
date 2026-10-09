@@ -26,7 +26,7 @@ export default function Navbar() {
                     <Link href="/todos" className="navbar-link">
                         Todos
                     </Link>
-                    <Link href="/add-todo" className="navbar-link navbar-link-cta">
+                    <Link href="/add" className="navbar-link navbar-link-cta">
                         Add Todo
                     </Link>
                     <Link href="/auth" className="navbar-link">
@@ -53,7 +53,7 @@ export default function Navbar() {
                     <Link href="/todos" className="navbar-mobile-link" onClick={() => setIsOpen(false)}>
                         Todos
                     </Link>
-                    <Link href="/add-todo" className="navbar-mobile-link navbar-mobile-link-cta" onClick={() => setIsOpen(false)}>
+                    <Link href="/add" className="navbar-mobile-link navbar-mobile-link-cta" onClick={() => setIsOpen(false)}>
                         Add Todo
                     </Link>
                     <Link href="/auth" className="navbar-mobile-link" onClick={() => setIsOpen(false)}>

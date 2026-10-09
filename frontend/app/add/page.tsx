@@ -1,33 +1,60 @@
 'use client'
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import todoService from "@/services/crud"
-import { DivideIcon } from "lucide-react"
+import todoService, { type Author } from "@/services/crud"
 
 
 export default function AddPage() {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
+    const [authors, setAuthors] = useState<Author[]>([])
+    const [authorId, setAuthorId] = useState('')
     const [error, setError] = useState<string | null>(null)
     const [isSubmitActive, setIsSubmitActive] = useState(false)
+    const [isLoadingAuthors, setIsLoadingAuthors] = useState(true)
     const router = useRouter()
+
+    useEffect(() => {
+        let isActive = true
+
+        todoService.getAuthors()
+            .then((availableAuthors) => {
+                if (!isActive) return
+                setAuthors(availableAuthors)
+                if (availableAuthors[0]) {
+                    setAuthorId(String(availableAuthors[0].id))
+                }
+            })
+            .catch((err: unknown) => {
+                if (isActive) {
+                    setError(err instanceof Error ? err.message : 'Failed to load authors.')
+                }
+            })
+            .finally(() => {
+                if (isActive) setIsLoadingAuthors(false)
+            })
+
+        return () => {
+            isActive = false
+        }
+    }, [])
 
     const submitHandler = async (e: React.FormEvent) => {
         e.preventDefault()
 
-        if (!title.trim()) {
+        if (!title.trim() || !authorId) {
             return
         }
 
         try {
             setError(null)
             setIsSubmitActive(true)
-            await todoService.createTodo(title.trim(), description.trim())
+            await todoService.createTodo(title.trim(), description.trim(), Number(authorId))
             router.push('/todos')
 
-        } catch (err: any) {
-            setError(err.message || 'Failed to create todo. Please try again.')
+        } catch (err: unknown) {
+            setError(err instanceof Error ? err.message : 'Failed to create todo. Please try again.')
         } finally {
             setIsSubmitActive(false)
         }
@@ -52,6 +79,30 @@ export default function AddPage() {
                     )}
 
                     <form onSubmit={submitHandler} className="space-y-6">
+                        <div>
+                            <label htmlFor="author" className="block text-sm font-semibold text-gray-700">
+                                Author <span className="text-red-500">*</span>
+                            </label>
+                            <select
+                                id="author"
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                                value={authorId}
+                                onChange={(e) => setAuthorId(e.target.value)}
+                                disabled={isLoadingAuthors || authors.length === 0}
+                                required
+                            >
+                                <option value="">
+                                    {isLoadingAuthors ? 'Loading authors...' : 'Select an author'}
+                                </option>
+                                {authors.map((author) => (
+                                    <option key={author.id} value={author.id}>{author.name}</option>
+                                ))}
+                            </select>
+                            {!isLoadingAuthors && authors.length === 0 && !error && (
+                                <p className="mt-2 text-sm text-red-600">No authors are available. Create an author before adding a todo.</p>
+                            )}
+                        </div>
+
                         <div>
                             <label htmlFor="title" className="block text-sm font-semibold text-gray-700">
                                 Task Title <span className="text-red-500">*</span>
@@ -89,7 +140,7 @@ export default function AddPage() {
                             </button>
                             <button
                                 type="submit"
-                                disabled={isSubmitActive}
+                                disabled={isSubmitActive || isLoadingAuthors || authors.length === 0}
                                 className="w-full sm:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
                             >
                                 {isSubmitActive ? (

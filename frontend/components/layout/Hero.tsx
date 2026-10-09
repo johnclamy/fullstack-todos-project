@@ -53,7 +53,7 @@ export default function Hero() {
 
                 {/* Secondary CTA: Navigation-oriented (Uses next/link) */}
                 <Link
-                    href="/tasks"
+                    href="/todos"
                     className="group inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 dark:border-slate-800 no-underline bg-white dark:bg-slate-900 px-7 py-3.5 text-sm font-semibold text-slate-700 dark:text-slate-300 shadow-sm transition-all duration-200 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-700 w-full sm:w-auto"
                 >
                     View My Todos

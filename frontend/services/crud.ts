@@ -10,6 +10,12 @@ interface ApiResponse<T> {
     data: T;
 }
 
+export interface Author {
+    id: number;
+    name: string;
+    email: string;
+}
+
 
 const todoService = {
     // Get all todos
@@ -32,17 +38,31 @@ const todoService = {
         return json.data
     },
 
+    async getAuthors(): Promise<Author[]> {
+        const result = await fetch(`${API_URL}/authors`)
+        const json: ApiResponse<Author[]> = await result.json()
+
+        if (!result.ok) {
+            throw new Error(json.message || 'Failed to fetch authors')
+        }
+
+        return json.data
+    },
+
     // Create a todo
-    async createTodo(title: string, description: string): Promise<Todo> {
+    async createTodo(title: string, description: string, authorId: number): Promise<Todo> {
         const result = await fetch(`${API_URL}/todos`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title, description }),
+            body: JSON.stringify({ title, description, author_id: authorId }),
         })
-        const json: ApiResponse<Todo> = await result.json()
+        const json: ApiResponse<Todo> & { detail?: string | { msg: string }[] } = await result.json()
 
         if (!result.ok) {
-            throw new Error(json.message || 'Failed to create todo')
+            const detail = Array.isArray(json.detail)
+                ? json.detail.map((item) => item.msg).join(', ')
+                : json.detail
+            throw new Error(json.message || detail || 'Failed to create todo')
         }
         return json.data
     },

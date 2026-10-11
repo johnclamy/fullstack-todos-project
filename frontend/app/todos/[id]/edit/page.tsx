@@ -15,21 +15,62 @@ export default function EditTodo() {
     const [isCompleted, setIsCompleted] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [isSubmitActive, setIsSubmitActive] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        fetchTodo(id, setTitle, setDescription, setIsCompleted, setError)
+        // Validate ID to prevent NaN API calls
+        if (isNaN(id)) {
+            setError("Invalid Todo ID")
+            setIsLoading(false)
+            return
+        }
+
+        const loadTodo = async () => {
+            try {
+                setIsLoading(true)
+                const data = await fetchTodo(id)
+                
+                // Populate form with fetched data
+                setTitle(data.title)
+                setDescription(data.description)
+                setIsCompleted(data.is_completed)
+                setError(null)
+            } catch (err: unknown) {
+                setError(err instanceof Error ? err.message : "Failed to fetch todo")
+            } finally {
+                setIsLoading(false)
+            }
+        }
+
+        loadTodo()
+
     }, [id])
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         if (!title.trim()) return
 
+        setIsSubmitActive(true)
+        setError(null) // Clear previous errors
+
         try {
-            await updateTodoOnSubmit(id, title, description, isCompleted, setError, setIsSubmitActive)
+            await updateTodoOnSubmit(id, title, description, isCompleted)
             router.push(`/todos/`)
         } catch (err: unknown) {
+            // Error is now handled cleanly in one place
             setError(err instanceof Error ? err.message : 'Failed to update todo. Please try again.')
+        } finally {
+            setIsSubmitActive(false)
         }
+    }
+
+    // Show loading state while fetching initial data
+    if (isLoading) {
+        return (
+            <main>
+                <p>Loading todo details...</p> {/* Replace with a Skeleton UI if desired */}
+            </main>
+        )
     }
 
     return (
@@ -40,7 +81,7 @@ export default function EditTodo() {
                     <p>Edit the details of your todo below.</p>
                 </header>
 
-                {error && <div className="form-page__error">{error}</div>}
+                {error && <div role="alert">{error}</div>}
 
                 <form onSubmit={handleSubmit}>
                     <div>

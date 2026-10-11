@@ -3,7 +3,7 @@ import Todo from "./todos"
 import todoService from "./crud"
 
 
-export default async function updateTodo(
+export default async function updateTodoOnSubmit(
     todoId: number,
     title: string,
     description: string | null,

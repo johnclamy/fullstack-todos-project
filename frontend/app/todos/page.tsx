@@ -1,158 +1,18 @@
-'use client'
-
-import { useEffect, useState } from 'react'
-import Link from 'next/link'
-import Todo from '../../services/todos'
-import fetchTodos from '@/services/fetch_todos'
-import todoService from '@/services/crud'
+import todoService from "@/services/crud"
+import TodosList from "./TodosList"
+import type Todo from "@/services/todos"
 
 
-export default function Todos() {               
-    const [todos, setTodos] = useState<Todo[]>([])              // Todos state provided from the fetch service
-    const [error, setError] = useState<string | null>(null)     // Error state handler
-    const [isOpen, setIsOpen] = useState(false)                 // Handle opening and closing a modal
-    const [todoId, setTodoId] = useState<number | null>(null)   // Todo ID marked for deletion
+export default async function TodosPage() {
+    let initialTodos: Todo[] = [];
+    let initialError: string | null = null;
 
-    useEffect(() => {
-        void fetchTodos(setTodos, setError)
-    }, [])
-
-    // Handlers for opening and closing the modal
-
-    const openHandler = (id: number) => {
-        setTodoId(id)
-        setIsOpen(true)
+    try {
+        initialTodos = await todoService.getTodos()
+    } catch (err) {
+        console.error("Failed to fetch todos:", err)
+        initialError = err instanceof Error ? err.message : "Failed to fetch todos. Please try again later."
     }
 
-    const closeHandler = () => {
-        setIsOpen(false)
-        setTodoId(null)
-    }
-
-    const confirmDeleteHandler = async () => {
-        if (todoId === null) {
-            return
-        }
-
-        try {
-            setError(null)
-            await todoService.deleteTodo(todoId)
-            // Remove from local state on success
-            setTodos(prev => prev.filter(t => t.id !== todoId))
-            closeHandler()
-
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'Failed to delete todo.')
-        }
-    }
-
-    return (      
-        <main className="min-h-screen bg-base text-gray-100 p-6 md:p-12 max-w-5xl mx-auto">
-
-            {/* Header Section */}
-            <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-                <h1 className="text-3xl md:text-4xl font-bold text-accent">My Todos</h1>
-                <Link
-                    href="/add"
-                    className="inline-flex items-center no-underline justify-center px-5 py-2.5 bg-accent text-base font-semibold rounded-lg hover:bg-accent-hover transition-all duration-200 shadow-lg shadow-accent/20"
-                >
-                    + Add New
-                </Link>
-            </header>
-
-            {/* Error Display */}
-            {error && (
-                <div className="mb-6 p-4 bg-red-900/20 border border-red-500/50 text-red-200 rounded-lg">
-                    {error}
-                </div>
-            )}
-
-            {/* Empty State */}
-            {todos.length === 0 && !error ? (
-                <div className="text-center py-16 bg-surface rounded-2xl border border-elevated">
-                    <span className="text-5xl mb-4 block">📝</span>
-                    <h2 className="text-xl font-semibold text-white mb-2">No tasks yet!</h2>
-                    <p className="text-gray-400">Create your first task to get started.</p>
-                </div>
-            ) : (
-                <ul className="space-y-4">
-                    {todos.map((todo) => (
-                        // Add conditional class if completed
-                        <li
-                            key={todo.id}
-                            className={`group flex flex-col sm:flex-row justify-between items-start sm:items-center p-5 bg-surface border border-elevated rounded-xl transition-all duration-200 ${todo.is_completed 
-                                ? 'opacity-60 border-l-4 border-l-accent' 
-                                : 'hover:border-accent/50 hover:shadow-lg hover:shadow-accent/5'
-                            }`}
-                        >
-                            <div className="flex-1">
-                                <h3 className={`text-lg font-semibold mb-4 transition-colors ${todo.is_completed 
-                                    ? 'line-through text-gray-400' 
-                                    : 'text-white group-hover:text-accent'
-                                }`}>
-                                    {todo.title}
-                                </h3>
-                                {todo.description && (
-                                    <p className="text-sm text-gray-400 mt-1">{todo.description}</p>
-                                )}
-                            </div>
-                            
-                            <div className="flex items-center gap-3 mt-4 sm:mt-0">
-                                <Link
-                                    href={`/todos/${todo.id}/edit`}
-                                    className="px-4 py-2 text-sm font-medium no-underline text-accent border border-accent/30 rounded-lg hover:bg-accent/10 transition-colors"
-                                >
-                                    Edit
-                                </Link>
-                                <button
-                                    onClick={() => openHandler(todo.id)}
-                                    className="px-4 py-2 text-sm font-medium text-red-400 border border-red-400/30 rounded-lg hover:bg-red-400/10 transition-colors"
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            )}
-
-            {/* Delete Confirmation Modal */}
-            {isOpen && (
-                <div
-                    onClick={closeHandler}
-                    className="fixed inset-0 bg-base/80 backdrop-blur-sm flex items-center justify-center p-4 z-50"
-                >
-                    <div
-                        onClick={(e) => e.stopPropagation()}
-                        className="bg-surface border border-elevated rounded-xl p-6 max-w-md w-full shadow-2xl"
-                    >
-                        <h2 className="text-xl font-bold text-white mb-2">Delete Task?</h2>
-                        <p className="text-gray-400 mb-6">
-                            Are you sure you want to delete this task? This action cannot be undone.
-                        </p>
-                        {error && (
-                            <div className="mb-4 p-3 bg-red-900/20 border border-red-500/50 text-red-200 rounded-lg text-sm">
-                                {error}
-                            </div>
-                        )}
-
-                        <div className="flex justify-end gap-3">
-                            <button
-                                onClick={closeHandler}
-                                className="px-4 py-2 text-sm font-medium text-gray-300 bg-elevated/50 rounded-lg hover:bg-elevated transition-colors"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={confirmDeleteHandler}
-                                className="px-4 py-2 text-sm font-medium text-base bg-accent rounded-lg hover:bg-accent-hover transition-all duration-200 shadow-lg shadow-accent/20"
-                            >
-                                Yes, Delete
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </main>
-    )
+    return <TodosList initialTodos={initialTodos} initialError={initialError} />
 }

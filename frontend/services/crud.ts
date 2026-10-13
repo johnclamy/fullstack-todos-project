@@ -89,7 +89,7 @@ const todoService = {
 
     // Delete a todo
     async deleteTodo(id: number): Promise<void> {
-        const result = await fetch(`${API_URL}/todos/delete/${id}`, {
+        const result = await fetch(`${API_URL}/todos/${id}`, {
             method: 'DELETE',
         })
         const json: ApiResponse<null> = await result.json();

@@ -73,7 +73,7 @@ const todoService = {
         title: string,
         description: string,
         is_completed: boolean): Promise<Todo> {
-        const result = await fetch(`${API_URL}/todos/update/${id}`, {
+        const result = await fetch(`${API_URL}/todos/${id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ title, description, is_completed }),
